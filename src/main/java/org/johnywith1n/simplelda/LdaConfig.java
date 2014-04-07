@@ -5,12 +5,12 @@ import gov.sandia.cognition.text.topic.LatentDirichletAllocationVectorGibbsSampl
 import java.util.Random;
 
 /**
+ * Config object to store values controlling the LDA algorithm.
+ * 
  * @author johnylam
- *
- *         Config object to store values controlling the LDA algorithm.
  */
-public class LdaConfig
-{
+public class LdaConfig {
+
     public final double alpha;
 
     public final double beta;
@@ -29,6 +29,24 @@ public class LdaConfig
      * Creates an LDA config object with default values for the unspecified
      * parameters.
      * 
+     * @param topicCount
+     *            The number of topics.
+     */
+    public LdaConfig ( int topicCount ) {
+        this.topicCount = topicCount;
+
+        this.alpha = LatentDirichletAllocationVectorGibbsSampler.DEFAULT_ALPHA;
+        this.beta = LatentDirichletAllocationVectorGibbsSampler.DEFAULT_BETA;
+        this.burnInInterations = LatentDirichletAllocationVectorGibbsSampler.DEFAULT_BURN_IN_ITERATIONS;
+        this.iterationsPerSamples = LatentDirichletAllocationVectorGibbsSampler.DEFAULT_BURN_IN_ITERATIONS;
+        this.maxIterations = LatentDirichletAllocationVectorGibbsSampler.DEFAULT_MAX_ITERATIONS;
+        this.random = new Random ();
+    }
+    
+    /**
+     * Creates an LDA config object with default values for the unspecified
+     * parameters.
+     * 
      * @param alpha
      *            Higher values means each document is more likely to contain a
      *            mixture of most of the topics. Lower values means each
@@ -41,8 +59,7 @@ public class LdaConfig
      * @param topicCount
      *            The number of topics.
      */
-    public LdaConfig (double alpha, double beta, int topicCount)
-    {
+    public LdaConfig ( double alpha, double beta, int topicCount ) {
         this.alpha = alpha;
         this.beta = beta;
         this.topicCount = topicCount;
@@ -50,7 +67,7 @@ public class LdaConfig
         this.burnInInterations = LatentDirichletAllocationVectorGibbsSampler.DEFAULT_BURN_IN_ITERATIONS;
         this.iterationsPerSamples = LatentDirichletAllocationVectorGibbsSampler.DEFAULT_BURN_IN_ITERATIONS;
         this.maxIterations = LatentDirichletAllocationVectorGibbsSampler.DEFAULT_MAX_ITERATIONS;
-        this.random = new Random();
+        this.random = new Random ();
     }
 
     /**
@@ -78,10 +95,9 @@ public class LdaConfig
      * @param topicCount
      *            The number of topics.
      */
-    public LdaConfig (double alpha, double beta, int burnInIterations,
+    public LdaConfig ( double alpha, double beta, int burnInIterations,
             int iterationsPerSamples, int maxIterations, Random random,
-            int topicCount)
-    {
+            int topicCount ) {
         this.alpha = alpha;
         this.beta = beta;
         this.burnInInterations = burnInIterations;
@@ -94,14 +110,13 @@ public class LdaConfig
     /**
      * Creates a config object with the default values.
      */
-    public LdaConfig ()
-    {
+    public LdaConfig () {
         this.alpha = LatentDirichletAllocationVectorGibbsSampler.DEFAULT_ALPHA;
         this.beta = LatentDirichletAllocationVectorGibbsSampler.DEFAULT_BETA;
         this.burnInInterations = LatentDirichletAllocationVectorGibbsSampler.DEFAULT_BURN_IN_ITERATIONS;
         this.iterationsPerSamples = LatentDirichletAllocationVectorGibbsSampler.DEFAULT_BURN_IN_ITERATIONS;
         this.maxIterations = LatentDirichletAllocationVectorGibbsSampler.DEFAULT_MAX_ITERATIONS;
-        this.random = new Random();
+        this.random = new Random ();
         this.topicCount = LatentDirichletAllocationVectorGibbsSampler.DEFAULT_TOPIC_COUNT;
     }
 
