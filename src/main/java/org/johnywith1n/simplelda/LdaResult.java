@@ -61,8 +61,8 @@ public class LdaResult {
      * 
      * @param result
      *            The result from running LDA.
-     * @param transform
-     *            The vector transform for the set of documents used in LDA.F
+     * @param index
+     *            The term index from the vector transform created for this set of documents.
      */
     public LdaResult (
             LatentDirichletAllocationVectorGibbsSampler.Result result,
