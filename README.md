@@ -19,5 +19,5 @@ The number of topics is simply how many topics you want the LDA algorithm to ass
 
 ###Usage
 
-Clone the repo and then run ```mvn package`` to get the uber jar. You can then add it to your build path. You can generate the javadocs by running ```mvn javadoc:javadoc```; the javadocs will be at target/site/apidocs.
+Clone the repo and then run ```mvn package``` to get the uber jar. You can then add it to your build path. You can generate the javadocs by running ```mvn javadoc:javadoc```; the javadocs will be at target/site/apidocs.
 
