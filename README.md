@@ -1,7 +1,7 @@
 simple-lda
 ==========
 
-This is a library for running the LDA (Latent Dirichlet Allocation) algorithm on a set of documents. **This library requires Java 8, see the branch [java7](./tree/java7) for a Java 7 compatible library**.
+This is a library for running the LDA (Latent Dirichlet Allocation) algorithm on a set of documents. **This library requires Java 8, see the branch [java7](../../tree/java7) for a Java 7 compatible library**.
 
 ###Classes
 
