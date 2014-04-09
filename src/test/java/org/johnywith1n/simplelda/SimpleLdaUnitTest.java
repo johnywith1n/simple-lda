@@ -38,9 +38,10 @@ public class SimpleLdaUnitTest {
         documents.add ( Arrays.asList ( doc9.toLowerCase ().split ( "\\s+" ) ) );
 
         Set<String> terms = new HashSet<> ();
-
-        documents.forEach ( ( doc ) -> doc.forEach ( ( token ) -> terms
-                .add ( token ) ) );
+        
+        for(List<String> doc: documents)
+            for(String token: doc)
+                terms.add(token);
 
         LdaResult result = lda.runLda ( documents );
 

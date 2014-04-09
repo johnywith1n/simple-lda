@@ -6,8 +6,6 @@ import gov.sandia.cognition.text.topic.LatentDirichletAllocationVectorGibbsSampl
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * A wrapper for the results from running LDA and methods for interacting with
@@ -62,7 +60,8 @@ public class LdaResult {
      * @param result
      *            The result from running LDA.
      * @param index
-     *            The term index from the vector transform created for this set of documents.
+     *            The term index from the vector transform created for this set
+     *            of documents.
      */
     public LdaResult (
             LatentDirichletAllocationVectorGibbsSampler.Result result,
@@ -96,14 +95,15 @@ public class LdaResult {
      *            the array of probabilities
      * @return The stream of index value pairs.
      */
-    private Stream<IndexValuePair> getSortedIndexValuePairStream (
+    private List<IndexValuePair> getSortedIndexValuePairStream (
             double[] probabilities ) {
         List<IndexValuePair> pairs = new ArrayList<> ();
 
         for (int i = 0; i < probabilities.length; i++)
             pairs.add ( new IndexValuePair ( i, probabilities[i] ) );
 
-        return pairs.stream ().sorted ( Collections.reverseOrder () );
+        Collections.sort ( pairs, Collections.reverseOrder () );
+        return pairs;
     }
 
     /**
@@ -116,10 +116,15 @@ public class LdaResult {
      * @return A list of words representing the topic.
      */
     public List<String> getTopNWordsForTopic ( int topicIndex, int n ) {
-        return getSortedIndexValuePairStream ( topicTermProbs[topicIndex] )
-                .limit ( n ).map ( ( pair ) -> {
-                    return getTermForIndexNumber ( pair.index );
-                } ).collect ( Collectors.toList () );
+        List<String> words = new ArrayList<> ();
+
+        List<IndexValuePair> pairs = getSortedIndexValuePairStream ( topicTermProbs[topicIndex] );
+        pairs = pairs.subList ( 0, n );
+
+        for (IndexValuePair pair : pairs) {
+            words.add ( getTermForIndexNumber ( pair.index ) );
+        }
+        return words;
     }
 
     /**
@@ -134,11 +139,16 @@ public class LdaResult {
      */
     public List<String> getTopProbabilityWordsForTopic ( int topicIndex,
             double minProb ) {
-        return getSortedIndexValuePairStream ( topicTermProbs[topicIndex] )
-                .filter ( ( pair ) -> pair.value > minProb )
-                .map ( ( pair ) -> {
-                    return getTermForIndexNumber ( pair.index );
-                } ).collect ( Collectors.toList () );
+        List<String> words = new ArrayList<> ();
+
+        List<IndexValuePair> pairs = getSortedIndexValuePairStream ( topicTermProbs[topicIndex] );
+
+        for (IndexValuePair pair : pairs) {
+            if (pair.value > minProb)
+                words.add ( getTermForIndexNumber ( pair.index ) );
+        }
+
+        return words;
     }
 
     /**
@@ -152,11 +162,16 @@ public class LdaResult {
      * @return A list of topic indices that this document is assocaited with.
      */
     public List<Integer> getTopNTopicsForDocument ( int documentIndex, int n ) {
-        return getSortedIndexValuePairStream (
-                documentTopicProbs[documentIndex] ).limit ( n )
-                .map ( ( pair ) -> {
-                    return pair.index;
-                } ).collect ( Collectors.toList () );
+        List<Integer> topics = new ArrayList<> ();
+
+        List<IndexValuePair> pairs = getSortedIndexValuePairStream ( documentTopicProbs[documentIndex] );
+
+        pairs = pairs.subList ( 0, n );
+
+        for (IndexValuePair pair : pairs)
+            topics.add ( pair.index );
+
+        return topics;
     }
 
     /**
@@ -185,12 +200,15 @@ public class LdaResult {
      */
     public List<Integer> getTopProbablityTopicsForDocument ( int documentIndex,
             double minProb ) {
-        return getSortedIndexValuePairStream (
-                documentTopicProbs[documentIndex] )
-                .filter ( ( pair ) -> pair.value > minProb )
-                .map ( ( pair ) -> {
-                    return pair.index;
-                } ).collect ( Collectors.toList () );
+        List<Integer> topics = new ArrayList<> ();
+
+        List<IndexValuePair> pairs = getSortedIndexValuePairStream ( documentTopicProbs[documentIndex] );
+
+        for (IndexValuePair pair : pairs)
+            if (pair.value > minProb)
+                topics.add ( pair.index );
+
+        return topics;
     }
 
     public class IndexValuePair implements Comparable<IndexValuePair> {

@@ -25,7 +25,7 @@ public class LdaResultUnitTest {
         Result _result = mock ( LatentDirichletAllocationVectorGibbsSampler.Result.class );
         TermIndex index = mock ( TermIndex.class );
 
-        Map<Integer, Term> terms = new HashMap<> ();
+        final Map<Integer, Term> terms = new HashMap<> ();
         terms.put ( 0, new DefaultTerm ( "what" ) );
         terms.put ( 1, new DefaultTerm ( "when" ) );
         terms.put ( 2, new DefaultTerm ( "where" ) );
@@ -59,7 +59,7 @@ public class LdaResultUnitTest {
         Result _result = mock ( LatentDirichletAllocationVectorGibbsSampler.Result.class );
         TermIndex index = mock ( TermIndex.class );
 
-        Map<Integer, Term> terms = new HashMap<> ();
+        final Map<Integer, Term> terms = new HashMap<> ();
         terms.put ( 0, new DefaultTerm ( "what" ) );
         terms.put ( 1, new DefaultTerm ( "when" ) );
         terms.put ( 2, new DefaultTerm ( "where" ) );

@@ -3,12 +3,13 @@ package org.johnywith1n.simplelda;
 import gov.sandia.cognition.math.matrix.Vector;
 import gov.sandia.cognition.text.term.DefaultTerm;
 import gov.sandia.cognition.text.term.DefaultTermIndex;
+import gov.sandia.cognition.text.term.Term;
 import gov.sandia.cognition.text.term.TermIndex;
 import gov.sandia.cognition.text.term.vector.BagOfWordsTransform;
 import gov.sandia.cognition.text.topic.LatentDirichletAllocationVectorGibbsSampler;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Class for running the LDA (Latent Dirichlet Allocation) algorithm on a set of
@@ -66,8 +67,9 @@ public class SimpleLda {
     private BagOfWordsTransform createTransform ( List<List<String>> documents ) {
         TermIndex index = new DefaultTermIndex ();
 
-        documents.forEach ( ( doc ) -> doc.forEach ( ( token ) -> index
-                .add ( new DefaultTerm ( token ) ) ) );
+        for (List<String> doc : documents)
+            for (String token : doc)
+                index.add ( new DefaultTerm ( token ) );
 
         return new BagOfWordsTransform ( index );
     }
@@ -84,12 +86,20 @@ public class SimpleLda {
     private List<Vector> generateDocumentVectors (
             List<List<String>> documents, BagOfWordsTransform transform ) {
 
-        return documents.stream ().map ( ( doc ) -> {
-            return doc.stream ().map ( ( token ) -> {
-                return new DefaultTerm ( token );
-            } ).collect ( Collectors.toList () );
-        } ).map ( ( tokens ) -> {
-            return transform.convertToVector ( tokens );
-        } ).collect ( Collectors.toList () );
+        List<List<Term>> documentsWithTerms = new ArrayList<> ();
+
+        for (List<String> doc : documents) {
+            List<Term> terms = new ArrayList<> ();
+            for (String token : doc)
+                terms.add ( new DefaultTerm ( token ) );
+            documentsWithTerms.add ( terms );
+        }
+
+        List<Vector> vectors = new ArrayList<> ();
+
+        for (List<Term> terms : documentsWithTerms)
+            vectors.add ( transform.convertToVector ( terms ) );
+
+        return vectors;
     }
 }
